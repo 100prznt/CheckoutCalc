@@ -24,9 +24,9 @@ namespace CheckoutCalc_CLI
             rates.Add(new Field(Segments.Double, 25, 5));
 
 
-            rates.ToJson("personal_rates.json");
+            rates.ToJson("../../../personal_rates.json");
 
-            var fu = FieldRates.FromJson("personal_rates.json");
+            var fu = FieldRates.FromJson("../../../personal_rates.json");
         }
     }
 }
