@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,8 @@ namespace CheckoutCalc
     /// <summary>
     /// Specifies a throw, wich contains three darts thrown in a series.
     /// </summary>
-    public class Throw
+    [DebuggerDisplay("{Score} ({Average})")]
+    public class Throw : IComparable<Throw>
     {
         /// <summary>
         /// Calcualted score
@@ -27,5 +29,10 @@ namespace CheckoutCalc
         /// Hit fields
         /// </summary>
         public List<Field> Hits = new List<Field>();
+
+        public int CompareTo(Throw other)
+        {
+            return this.Score.CompareTo(other.Score);
+        }
     }
 }

@@ -27,6 +27,10 @@ namespace CheckoutCalc_CLI
             rates.ToJson("../../../personal_rates.json");
 
             var fu = FieldRates.FromJson("../../../personal_rates.json");
+
+            var co = new Checkout(fu);
+
+            co.CalculateAllThrows();
         }
     }
 }
