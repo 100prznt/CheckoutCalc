@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckoutCalc.Extensions
+namespace CheckoutCalc.Board
 {
     public static class SegmentExtension
     {

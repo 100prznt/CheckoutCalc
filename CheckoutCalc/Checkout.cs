@@ -8,8 +8,15 @@ namespace CheckoutCalc
 {
     public class Checkout
     {
+        FieldRates m_Ranks;
+
         public int Score { get; set; }
 
         public List<Throw> PossibleThrows { get; set; } = new List<Throw>();
+
+        public Checkout(FieldRates ranks)
+        {
+            m_Ranks = ranks;
+        }
     }
 }

@@ -1,29 +1,49 @@
-﻿using CheckoutCalc.Extensions;
-using Microsoft.SqlServer.Server;
+﻿using CheckoutCalc.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace CheckoutCalc
+namespace CheckoutCalc.Board
 {
-    public class SingleDart
+    /// <summary>
+    /// Specifies a single field on the board, including its hit rate.
+    /// </summary>
+    [DebuggerDisplay("{Name, nq}: {HitRate})")]
+    public class Field
     {
-        int m_Rank;
+        #region Members
+        int m_HitRate;
 
+        #endregion Members
+
+        #region Properties
+        /// <summary>
+        /// Calculated score
+        /// </summary>
         [JsonIgnore]
         public int Score => Bed * (int)Segment;
 
+        /// <summary>
+        /// Bed, 1 - 20 or 25
+        /// </summary>
         [JsonIgnore]
         public int Bed { get; set; }
 
+        /// <summary>
+        /// Segment, S, D or T
+        /// </summary>
         [JsonIgnore]
         public Segments Segment { get; set; }
 
+        /// <summary>
+        /// Short name
+        /// (e.g. D20, T18, etc.)
+        /// </summary>
         public string Name
         {
             get
@@ -32,44 +52,56 @@ namespace CheckoutCalc
             }
             set
             {
-                var data = SingleDart.Parse(value);
+                var data = Field.Parse(value);
                 Bed = data.Bed;
                 Segment = data.Segment;
             }
         }
 
         /// <summary>
-        /// Beliebtheit des Feldes, höchster Wert 62
+        /// The hit rate of this field.
+        /// 1:   Field is hit once in 100 attempts.
+        /// 100: Field is hit 100 times in 100 attempts.
         /// </summary>
-        public int Rank
+        public int HitRate
         {
-            get => m_Rank;
+            get => m_HitRate;
             set
             {
-                m_Rank = value.Clamp(0, 62);
+                m_HitRate = value.Clamp(1, 100);
             }
         }
 
-        public SingleDart()
+        #endregion Properties
+
+        #region Constructors
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
+        public Field()
         {
 
         }
-        public SingleDart(Segments segment, int bed, int rank = 0)
+
+        public Field(Segments segment, int bed, int hitRate = 0)
         {
             Segment = segment;
             Bed = bed;
-            Rank = rank;
+            HitRate = hitRate;
         }
 
-        public SingleDart(string name, int rank)
+        public Field(string name, int hitRate)
         {
             Name = name;
-            Rank = rank;
+            HitRate = hitRate;
         }
 
-        public static SingleDart Parse(string name)
+        #endregion Constructors
+
+        #region Public services
+        public static Field Parse(string name)
         {
-            var result = new SingleDart();
+            var result = new Field();
 
             var segments = Enum.GetValues(typeof(Segments)).Cast<Segments>();
             var prefixes = new Dictionary<string, Segments>();
@@ -80,7 +112,6 @@ namespace CheckoutCalc
                     prefixes.Add(prefix, segment);
                 }
             }
-
 
             //string pattern = @"^(?<segment>|S|D|T)(?<bed>\d{1,2})$";
             var pattern = new StringBuilder(@"^(?<prefix>");
@@ -103,5 +134,7 @@ namespace CheckoutCalc
 
             return result;
         }
+
+        #endregion Public services
     }
 }

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CheckoutCalc.Board;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,18 +9,23 @@ using System.Threading.Tasks;
 namespace CheckoutCalc
 {
     /// <summary>
-    /// Aufnahme
-    /// Beschreibt das Werfen von drei Pfeilen nacheinander auf das Dartboard.
-    /// Alternativ ist auch die Bezeichnung „Wurf“ möglich.
-    /// Einfacher erklärt: Ein Spieler wirft in einer Aufnahme drei Darts hintereinander auf die Dartscheibe.
-    /// Anschließend ist der nächste Spieler mit seinen drei Darts (seiner Aufnahme) an der Reihe.
+    /// Specifies a throw, wich contains three darts thrown in a series.
     /// </summary>
     public class Throw
     {
-        public int Score => Darts.Sum(x => x.Score);
+        /// <summary>
+        /// Calcualted score
+        /// </summary>
+        public int Score => Hits.Sum(x => x.Score);
 
-        public double Average => Darts.Count() > 0 ? Score / Darts.Count() : 0;
+        /// <summary>
+        /// Calculated average
+        /// </summary>
+        public double Average => Hits.Count() > 0 ? Hits.Average(x => x.Score) : 0;
 
-        public List<SingleDart> Darts = new List<SingleDart>();
+        /// <summary>
+        /// Hit fields
+        /// </summary>
+        public List<Field> Hits = new List<Field>();
     }
 }

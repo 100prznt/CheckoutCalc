@@ -1,4 +1,5 @@
 ﻿using CheckoutCalc;
+using CheckoutCalc.Board;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +12,21 @@ namespace CheckoutCalc_CLI
     {
         static void Main(string[] args)
         {
-            var fu = new DartRanks();
+            var rates = new FieldRates();
 
-            for (int i = 1; i <= 20;  i++)
+            for (int i = 1; i <= 20; i++)
             {
-                fu.Add(new SingleDart(Segments.Single, i, 50));
-                fu.Add(new SingleDart(Segments.Double, i, 25));
-                fu.Add(new SingleDart(Segments.Triple, i, 15));
+                rates.Add(new Field(Segments.Single, i, 70));
+                rates.Add(new Field(Segments.Double, i, 30));
+                rates.Add(new Field(Segments.Triple, i, 20));
             }
-            fu.Add(new SingleDart(Segments.Single, 25, 5));
-            fu.Add(new SingleDart(Segments.Double, 25, 0));
+            rates.Add(new Field(Segments.Single, 25, 10));
+            rates.Add(new Field(Segments.Double, 25, 5));
 
 
-            fu.ToJson("out.json");
+            rates.ToJson("personal_rates.json");
+
+            var fu = FieldRates.FromJson("personal_rates.json");
         }
     }
 }

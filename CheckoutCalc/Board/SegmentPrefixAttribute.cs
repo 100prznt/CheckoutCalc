@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckoutCalc
+namespace CheckoutCalc.Board
 {
     internal class SegmentPrefixAttribute : Attribute
     {
