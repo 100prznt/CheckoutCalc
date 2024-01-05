@@ -8,6 +8,7 @@ namespace CheckoutCalc.Board
 {
     public enum Segments
     {
+        Undefined = 0,
         [SegmentPrefix("", "S")]
         Single = 1,
         [SegmentPrefix("D")]

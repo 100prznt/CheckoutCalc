@@ -10,29 +10,23 @@ namespace CheckoutCalc.Board
     {
         public static string[] GetPrefixes(this Segments segment)
         {
-            return GetAttribute<SegmentPrefixAttribute>(segment).Prefixes;
+            var fi = segment.GetType().GetField(segment.ToString());
+
+            foreach (var attr in fi.GetCustomAttributes(false))
+                if (attr is SegmentPrefixAttribute selectedAttr)
+                    return selectedAttr.Prefixes;
+
+            return new string[0];
         }
 
         public static string GetPrefix(this Segments segment)
         {
-            var prefixes = GetAttribute<SegmentPrefixAttribute>(segment).Prefixes;
+            var prefixes = GetPrefixes(segment);
 
             if (prefixes != null && prefixes.Length > 0)
                 return prefixes[0];
             else
                 return string.Empty;
-
-        }
-
-        internal static T GetAttribute<T>(Segments unit) where T : Attribute
-        {
-            var fi = unit.GetType().GetField(unit.ToString());
-
-            foreach (var attr in fi.GetCustomAttributes(false))
-                if (attr is T selectedAttr)
-                    return selectedAttr;
-
-            return null;
         }
     }
 }

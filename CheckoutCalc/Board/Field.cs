@@ -1,5 +1,4 @@
-﻿using CheckoutCalc.Utilities;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
@@ -13,11 +12,11 @@ namespace CheckoutCalc.Board
     /// <summary>
     /// Specifies a single field on the board, including its hit rate.
     /// </summary>
-    [DebuggerDisplay("{Name, nq}: {HitRate})")]
+    [DebuggerDisplay("{Name, nq}: {HitRate}")]
     public class Field
     {
         #region Members
-        int m_HitRate;
+        double m_HitRate;
 
         #endregion Members
 
@@ -63,12 +62,15 @@ namespace CheckoutCalc.Board
         /// 1:   Field is hit once in 100 attempts.
         /// 100: Field is hit 100 times in 100 attempts.
         /// </summary>
-        public int HitRate
+        public double HitRate
         {
             get => m_HitRate;
             set
             {
-                m_HitRate = value.Clamp(1, 100);
+                if (value < 1 || value > 100)
+                    throw new ArgumentOutOfRangeException($"Hit rate ({value}) must between 1 and 100.");
+
+                m_HitRate = value;
             }
         }
 
@@ -83,14 +85,14 @@ namespace CheckoutCalc.Board
 
         }
 
-        public Field(Segments segment, int bed, int hitRate = 0)
+        public Field(Segments segment, int bed, double hitRate = 0)
         {
             Segment = segment;
             Bed = bed;
             HitRate = hitRate;
         }
 
-        public Field(string name, int hitRate)
+        public Field(string name, double hitRate)
         {
             Name = name;
             HitRate = hitRate;

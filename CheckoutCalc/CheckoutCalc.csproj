@@ -44,10 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FillOptions.cs" />
     <Compile Include="Checkout.cs" />
     <Compile Include="FieldRates.cs" />
     <Compile Include="Board\SegmentExtensions.cs" />
-    <Compile Include="Utilities\Math.cs" />
     <Compile Include="Board\SegmentPrefixAttribute.cs" />
     <Compile Include="Board\Segments.cs" />
     <Compile Include="Board\Field.cs" />
