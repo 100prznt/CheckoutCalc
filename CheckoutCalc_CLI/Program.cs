@@ -30,7 +30,7 @@ namespace CheckoutCalc_CLI
 
             var co = new Checkout(fu);
 
-            co.CalculateAllThrows();
+            co.FindWay(154, Segments.Double);
         }
     }
 }

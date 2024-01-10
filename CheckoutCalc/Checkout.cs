@@ -12,7 +12,7 @@ namespace CheckoutCalc
         FieldRates m_Rates;
         FieldRates m_Fields; //m_Rates => checked and filled 
         Dictionary<int, Throw> m_Throws;
-        List<Throw> m_Combinations;
+        List<Throw> m_AllThrows;
 
 
         public int Score { get; set; }
@@ -23,12 +23,16 @@ namespace CheckoutCalc
         {
             m_Rates = ranks;
             m_Fields = m_Rates.GetFieldList(FillOptions.LowestRate);
+
+            CalculateAllThrows();
         }
 
         public Throw FindWay(int score, Segments checkoutMethode = Segments.Single)
         {
             if (score < 0)
                 throw new ArgumentOutOfRangeException($"Checkoutscore ({score}) must be larger then 0.");
+
+            var fittedThrows = new List<Throw>();
 
             switch (checkoutMethode)
             {
@@ -46,13 +50,22 @@ namespace CheckoutCalc
                     break;
             }
 
+            if (checkoutMethode == Segments.Undefined)
+                fittedThrows = m_AllThrows;
+            else
+                fittedThrows = m_AllThrows.Where(x => x.Hits.Any(y => y.Segment == checkoutMethode)).ToList();
+
+            var possibleThrows = fittedThrows.Where(x => x.Score == score).ToList();
+
+
+
             throw new NotImplementedException();
         }
 
         public void CalculateAllThrows()
         {
             var fieldCount = m_Fields.Count;
-            m_Combinations = new List<Throw>();
+            m_AllThrows = new List<Throw>();
 
             for (int x = -1; x < fieldCount; x++)
             {
@@ -75,14 +88,14 @@ namespace CheckoutCalc
                         combination.Hits.Add(dart2);
                         combination.Hits.Add(dart3);
 
-                        m_Combinations.Add(combination);
+                        m_AllThrows.Add(combination);
                     }
                 }
             }
 
-            m_Combinations.Sort();
+            m_AllThrows.Sort();
 
-            var fu = m_Combinations.Max(x => x.Score);
+            var fu = m_AllThrows.Max(x => x.Score);
         }
     }
 }
