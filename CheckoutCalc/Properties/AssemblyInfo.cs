@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CheckoutCalc")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("BOSCH")]
+[assembly: AssemblyCompany("RC-Art Solutions")]
 [assembly: AssemblyProduct("CheckoutCalc")]
-[assembly: AssemblyCopyright("Copyright © BOSCH 2024")]
+[assembly: AssemblyCopyright("Copyright © RC-Art Solutions 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
